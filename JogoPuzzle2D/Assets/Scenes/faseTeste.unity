@@ -176,7 +176,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -199,7 +199,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 341064219}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -220,6 +220,7 @@ GameObject:
   - component: {fileID: 434464836}
   - component: {fileID: 434464839}
   - component: {fileID: 434464838}
+  - component: {fileID: 434464841}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -345,8 +346,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.007091522
-        value: 0.35537338
+        time: 0.042552948
+        value: 0.19834518
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -426,8 +427,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6d7f2c333538845acdf64cd07fd15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corda: {fileID: 0}
   "im\xE3": {fileID: 2109328962}
+  playerMoveSpeed: 10
+  maxDistanceToPullBack: 8
+  haveMagnet: 0
+  distance: 0
+--- !u!61 &434464841
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434464835}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1345917836
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +470,7 @@ GameObject:
   - component: {fileID: 1345917838}
   - component: {fileID: 1345917837}
   - component: {fileID: 1345917840}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Chave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,10 +603,12 @@ GameObject:
   - component: {fileID: 2109328965}
   - component: {fileID: 2109328967}
   - component: {fileID: 2109328964}
+  - component: {fileID: 2109328968}
   - component: {fileID: 2109328963}
+  - component: {fileID: 2109328969}
   m_Layer: 0
   m_Name: "Im\xE3"
-  m_TagString: Untagged
+  m_TagString: Magnet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -595,7 +627,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -613,7 +645,7 @@ PointEffector2D:
   m_UseColliderMask: 1
   m_ColliderMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   m_ForceMagnitude: -5
   m_ForceVariation: 0
   m_DistanceScale: 1
@@ -705,3 +737,39 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.65
+--- !u!231 &2109328968
+SpringJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109328962}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 434464839}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_AutoConfigureDistance: 0
+  m_Distance: 7.5
+  m_DampingRatio: 0.5
+  m_Frequency: 1
+--- !u!58 &2109328969
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109328962}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.20000002}
+  serializedVersion: 2
+  m_Radius: 1

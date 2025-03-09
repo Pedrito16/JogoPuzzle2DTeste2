@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] float playerMoveSpeed;
     [SerializeField] float maxDistanceToPullBack;
     [SerializeField] bool haveMagnet;
+    [SerializeField] Transform anchor;
 
     [Header("Debug")]
     [SerializeField] float distance;
@@ -35,7 +36,7 @@ public class Player : MonoBehaviour
             playerMovementVector = playerMovementVector.normalized;
         }
         rb.velocity = playerMovementVector * playerMoveSpeed;
-        distance = Vector2.Distance(transform.position, imã.transform.position);
+        /*distance = Vector2.Distance(transform.position, imã.transform.position);
 
         if (distance >= maxDistanceToPullBack)
         {
@@ -49,8 +50,8 @@ public class Player : MonoBehaviour
             magnetRb.angularDrag = 5;
             magnetRb.drag = 5;
         }
-        corda.SetPosition(0, transform.position);
-        corda.SetPosition(1, imã.transform.position);
+            corda.SetPosition(0, transform.position);
+        corda.SetPosition(1, imã.transform.position);*/
     }
     void ThrowMagnet()
     {
@@ -67,6 +68,6 @@ public class Player : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(imã.transform.position, maxDistanceToPullBack);
+        //Gizmos.DrawWireSphere(imã.transform.position, maxDistanceToPullBack);
     }
 }

@@ -16,6 +16,7 @@ public class RopeSystem : MonoBehaviour
 
     void Update()
     {
+        //precisa colocar tudo isso em um for, mesmo que seja nao recomendado
         corda.SetPosition(0, player.position);
         corda.SetPosition(1, pontosCorda[0].position);
         corda.SetPosition(2, pontosCorda[1].position);

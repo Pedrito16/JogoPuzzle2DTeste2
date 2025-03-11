@@ -205,7 +205,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &434464835
 GameObject:
@@ -293,7 +293,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &434464838
 LineRenderer:
@@ -429,11 +429,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magnet: {fileID: 2109328962}
   playerMoveSpeed: 10
-  maxDistanceToPullBack: 9
-  tempoSegurado: 0
   velocidadePuxada: 0.025
-  distance: 0
-  haveMagnet: 0
+  tempoSegurado: 0
+  hasMagnet: 0
+  canMove: 0
 --- !u!61 &434464841
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1110,6 +1109,7 @@ MonoBehaviour:
   - {fileID: 1253774763}
   magnet: {fileID: 2109328966}
   corda: {fileID: 0}
+  playerTransform: {fileID: 434464837}
   player: {fileID: 434464837}
 --- !u!4 &1308849734
 Transform:
@@ -1124,7 +1124,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1345917836
 GameObject:
@@ -1236,7 +1236,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1345917840
 Rigidbody2D:
@@ -1425,7 +1425,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!58 &2109328967
 CircleCollider2D:
@@ -1470,7 +1470,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109328962}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1

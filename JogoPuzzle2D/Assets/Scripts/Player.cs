@@ -9,28 +9,26 @@ public enum PlayerState
 public class Player : MonoBehaviour
 {
     [SerializeField] GameObject magnet;
-    [SerializeField] float playerMoveSpeed;
-    [SerializeField] float maxDistanceToPullBack;
+
     [Header("Configurações")]
-    [SerializeField] float tempoSegurado;
+    [SerializeField] float playerMoveSpeed;
     [SerializeField] float velocidadePuxada;
 
     [Header("Debug")]
-    [SerializeField] float distance;
+    [SerializeField] float tempoSegurado;
     [SerializeField] public static PlayerState state;
     [SerializeField] bool haveMagnet;
+    [SerializeField] bool canMove;
 
     //variaveis invisiveis
     Rigidbody2D rb;
     LineRenderer corda;
-    SpringJoint2D magnetJoint;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         corda = GetComponent<LineRenderer>();
-        magnetJoint = magnet.GetComponent<SpringJoint2D>();
-        magnetJoint.distance = maxDistanceToPullBack;
         state = PlayerState.notPulling;
+        canMove = true;
     }
     void Update()
     {
@@ -41,12 +39,20 @@ public class Player : MonoBehaviour
         {
             playerMovementVector = playerMovementVector.normalized;
         }
-        rb.velocity = playerMovementVector * playerMoveSpeed;
+        if(canMove)
+        {
+            rb.velocity = playerMovementVector * playerMoveSpeed;
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
     private void FixedUpdate()
     {
         if (Input.GetButton("Jump") && !haveMagnet)
         {
+            canMove = false;
             StartCoroutine(pullMagnet());
             state = PlayerState.Pulling;
         }
@@ -54,6 +60,7 @@ public class Player : MonoBehaviour
         {
             state = PlayerState.notPulling;
             StopAllCoroutines();
+            canMove = true;
         }
     }
     void ThrowMagnet()

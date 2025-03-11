@@ -200,11 +200,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 341064219}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.76, y: 0.17, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 434464837}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &434464835
@@ -291,10 +291,9 @@ Transform:
   m_LocalPosition: {x: -2.76, y: -0.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 341064222}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &434464838
 LineRenderer:
@@ -428,12 +427,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6d7f2c333538845acdf64cd07fd15d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "im\xE3": {fileID: 2109328962}
+  magnet: {fileID: 2109328962}
   playerMoveSpeed: 10
   maxDistanceToPullBack: 9
-  haveMagnet: 0
-  anchor: {fileID: 0}
+  tempoSegurado: 0
+  velocidadePuxada: 0.025
   distance: 0
+  haveMagnet: 0
 --- !u!61 &434464841
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -506,9 +506,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSegment: {fileID: 1136621586}
-  previousSegment: {fileID: 0}
+  previousSegment: {fileID: 1253774763}
   maxDistance: 1
   distance: 0
+  state: 0
 --- !u!212 &494730525
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -607,9 +608,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSegment: {fileID: 1303719577}
-  previousSegment: {fileID: 0}
+  previousSegment: {fileID: 1136621586}
   maxDistance: 1
   distance: 0
+  state: 0
 --- !u!212 &904854807
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -708,9 +710,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSegment: {fileID: 904854805}
-  previousSegment: {fileID: 0}
+  previousSegment: {fileID: 494730523}
   maxDistance: 1
   distance: 0
+  state: 0
 --- !u!212 &1136621588
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -861,9 +864,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSegment: {fileID: 434464837}
-  previousSegment: {fileID: 0}
+  previousSegment: {fileID: 1303719577}
   maxDistance: 1
   distance: 0
+  state: 0
 --- !u!1 &1253774762
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,9 +914,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSegment: {fileID: 494730523}
-  previousSegment: {fileID: 0}
+  previousSegment: {fileID: 2109328966}
   maxDistance: 1
   distance: 0
+  state: 0
 --- !u!212 &1253774765
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1011,9 +1016,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSegment: {fileID: 1220189997}
-  previousSegment: {fileID: 0}
+  previousSegment: {fileID: 904854805}
   maxDistance: 1
   distance: 0
+  state: 0
 --- !u!212 &1303719579
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1118,7 +1124,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1345917836
 GameObject:
@@ -1230,7 +1236,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1345917840
 Rigidbody2D:
@@ -1288,7 +1294,7 @@ Transform:
   - {fileID: 494730523}
   - {fileID: 1253774763}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2109328962
 GameObject:
@@ -1419,7 +1425,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!58 &2109328967
 CircleCollider2D:
@@ -1486,6 +1492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSegment: {fileID: 1253774763}
-  previousSegment: {fileID: 0}
+  previousSegment: {fileID: 434464837}
   maxDistance: 1
   distance: 0
+  state: 0

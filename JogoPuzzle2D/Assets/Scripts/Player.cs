@@ -1,30 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum PlayerState
+{
+    notPulling,
+    Pulling
+}
 public class Player : MonoBehaviour
 {
-    [SerializeField] GameObject imã;
+    [SerializeField] GameObject magnet;
     [SerializeField] float playerMoveSpeed;
     [SerializeField] float maxDistanceToPullBack;
-    [SerializeField] bool haveMagnet;
-    [SerializeField] Transform anchor;
+    [Header("Configurações")]
+    [SerializeField] float tempoSegurado;
+    [SerializeField] float velocidadePuxada;
 
     [Header("Debug")]
     [SerializeField] float distance;
+    [SerializeField] public static PlayerState state;
+    [SerializeField] bool haveMagnet;
 
     //variaveis invisiveis
     Rigidbody2D rb;
     LineRenderer corda;
-    Rigidbody2D magnetRb;
     SpringJoint2D magnetJoint;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         corda = GetComponent<LineRenderer>();
-        magnetJoint = imã.GetComponent<SpringJoint2D>();
-        magnetRb = imã.GetComponent<Rigidbody2D>();
+        magnetJoint = magnet.GetComponent<SpringJoint2D>();
         magnetJoint.distance = maxDistanceToPullBack;
+        state = PlayerState.notPulling;
     }
     void Update()
     {
@@ -36,38 +42,41 @@ public class Player : MonoBehaviour
             playerMovementVector = playerMovementVector.normalized;
         }
         rb.velocity = playerMovementVector * playerMoveSpeed;
-        /*distance = Vector2.Distance(transform.position, imã.transform.position);
-
-        if (distance >= maxDistanceToPullBack)
+    }
+    private void FixedUpdate()
+    {
+        if (Input.GetButton("Jump") && !haveMagnet)
         {
-            magnetJoint.enabled = true;
-            magnetRb.angularDrag = 0.1f;
-            magnetRb.drag = 0.1f;
+            StartCoroutine(pullMagnet());
+            state = PlayerState.Pulling;
         }
         else
         {
-            magnetJoint.enabled = false;
-            magnetRb.angularDrag = 5;
-            magnetRb.drag = 5;
+            state = PlayerState.notPulling;
+            StopAllCoroutines();
         }
-            corda.SetPosition(0, transform.position);
-        corda.SetPosition(1, imã.transform.position);*/
     }
     void ThrowMagnet()
     {
 
     }
+    IEnumerator pullMagnet()
+    {
+        float iterador = 0;
+        while(iterador < 100)
+        {
+            magnet.transform.position = Vector2.Lerp(magnet.transform.position, transform.position, velocidadePuxada * iterador / 100);
+            iterador += Time.deltaTime;
+            yield return null;
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Magnet") //to usando com tag pois: não sei usar interface "direito" e porque magnet não tem script para aplicar interface :P
         {
-            imã.SetActive(false);
+            magnet.SetActive(false);
             corda.enabled = false;
             haveMagnet = true;
         }
-    }
-    private void OnDrawGizmos()
-    {
-        //Gizmos.DrawWireSphere(imã.transform.position, maxDistanceToPullBack);
     }
 }

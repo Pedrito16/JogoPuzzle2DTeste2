@@ -19,24 +19,25 @@ public class RopeSegment : MonoBehaviour
     {
         state = Player.state;
 
-        if (Player.state == PlayerState.notPulling)
+        if (Player.state == PlayerState.Active)
             distance = Vector2.Distance(transform.position, nextSegment.position);
-        else
+        else if(Player.state == PlayerState.Pulling || Player.state == PlayerState.Throwing)
             distance = Vector2.Distance(transform.position, previousSegment.position);
 
 
-        if(distance >= maxDistance && state == PlayerState.notPulling)
+        if (distance >= maxDistance && state == PlayerState.Active)
         {
-            StartCoroutine(VoltarRange());
-        }else if(distance >= maxDistance && state == PlayerState.Pulling)
-        { 
+            StartCoroutine(PlayerDirection());
+        }
+        else if (distance >= maxDistance && state == PlayerState.Pulling || distance >= maxDistance && state == PlayerState.Throwing)
+        {
             if (gameObject.tag != "Magnet")
             {
-                StartCoroutine(PuxarImã());
+                StartCoroutine(MagnetDirection());
             }
         }
     }
-    IEnumerator PuxarImã()
+    IEnumerator MagnetDirection()
     {
         float iterador = 0;
         //print("PuxarImã");
@@ -47,7 +48,7 @@ public class RopeSegment : MonoBehaviour
             yield return null;
         }
     }
-    IEnumerator VoltarRange()
+    IEnumerator PlayerDirection()
     {
         float iterador = 0;
         //print("Voltar Range");

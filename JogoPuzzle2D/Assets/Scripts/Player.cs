@@ -1,11 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 public enum PlayerState
 {
-    notPulling,
-    Pulling
+    Inactive,
+    Active,
+    Pulling,
+    Throwing
 }
 public class Player : MonoBehaviour
 {
@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [Header("Configurações")]
     [SerializeField] float playerMoveSpeed;
     [SerializeField] float velocidadePuxada;
+    [SerializeField] float forçaJogada;
 
     [Header("Debug")]
     [SerializeField] float tempoSegurado;
@@ -30,7 +31,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         magnetRb = magnet.GetComponent<Rigidbody2D>();
         corda = GetComponent<LineRenderer>();
-        state = PlayerState.notPulling;
+        state = PlayerState.Active;
         canMove = true;
     }
     void Update()
@@ -42,14 +43,18 @@ public class Player : MonoBehaviour
         {
             playerMovementVector = playerMovementVector.normalized;
         }
+
         if(canMove)
+        {
             rb.velocity = playerMovementVector * playerMoveSpeed;
+        }
         else
             rb.velocity = Vector2.zero;
 
         if (Input.GetButton("Fire1") && tempoSegurado < 3)
         {
             tempoSegurado += Time.deltaTime;
+            state = PlayerState.Throwing;
         }
         if (Input.GetButtonDown("Fire1"))
         {
@@ -64,33 +69,33 @@ public class Player : MonoBehaviour
             StartCoroutine(pullMagnet());
             state = PlayerState.Pulling;
         }
-        else
+        else 
         {
-            state = PlayerState.notPulling;
             StopAllCoroutines();
             canMove = true;
-        }
-        if (Input.GetButton("Fire1") && tempoSegurado < 3)
-        {
-            tempoSegurado += Time.deltaTime;
-        }
-        if (Input.GetButtonDown("Fire1"))
-        {
-            ThrowMagnet(tempoSegurado);
         }
     }
     void ThrowMagnet(float força)
     {
-        print("Ativou ThrowMagnet");
+        state = PlayerState.Throwing;
         hasMagnet = false;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         magnet.SetActive(true);
         magnet.transform.position = transform.position;
         magnet.transform.rotation = Quaternion.Euler(new Vector3(magnet.transform.rotation.x, magnet.transform.rotation.y, GetPlayerLookingPosition(mousePos)));
 
-        magnetRb.AddForce(mousePos * força);
+        magnetRb.velocity = mousePos * força * forçaJogada;
+        StartCoroutine(JogarImã(força, mousePos));
         corda.enabled = true;
     }
+    /*IEnumerator JogarImã(float força, Vector2 paraOnde)
+    {
+        float iterador = 0;
+        while(iterador < 3)
+        {
+            magnetRb
+        }
+    }*/
     float GetPlayerLookingPosition(Vector3 mousePos)
     {
         Vector3 direction = transform.position - mousePos;

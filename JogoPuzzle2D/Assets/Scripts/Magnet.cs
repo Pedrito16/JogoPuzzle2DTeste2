@@ -17,16 +17,17 @@ public class Magnet : MonoBehaviour
         state = Player.state;
         if (state == PlayerState.Pulling)
         {
-            Invoke("ActivateCollider", 1.5f);
+            col.enabled = true;
         }
            
     }
-    void ActivateCollider()
+    private void OnEnable()
+    {
+        col.enabled =false;
+        Invoke("enableCollider", 1);
+    }
+    void enableCollider()
     {
         col.enabled = true;
-    }
-    void DeactivateCollider()
-    {
-        col.enabled = false;
     }
 }

@@ -39,6 +39,7 @@ public class RopeSegment : MonoBehaviour
         {
             if (gameObject.tag != "Magnet")
             {
+                transform.position = previousSegment.position;
                 StartCoroutine(MagnetDirection());
             }
         }

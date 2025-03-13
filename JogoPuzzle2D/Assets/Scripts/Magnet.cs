@@ -6,10 +6,9 @@ public class Magnet : MonoBehaviour
 {
     [SerializeField] public Collider2D col;
     [SerializeField] PlayerState state;
-    bool ativador;
     void Start()
     {
-        ativador = true;
+
     }
 
     void Update()

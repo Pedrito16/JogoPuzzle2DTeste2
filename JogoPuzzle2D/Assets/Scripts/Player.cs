@@ -10,7 +10,7 @@ public enum PlayerState
 public class Player : MonoBehaviour
 {
     [SerializeField] GameObject magnet;
-
+    public Collider2D magnetCircleCol;
     [Header("Configurações")]
     [SerializeField] float playerMoveSpeed;
     [SerializeField] float velocidadePuxada;
@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         magnetRb = magnet.GetComponent<Rigidbody2D>();
         corda = GetComponent<LineRenderer>();
+        magnetCircleCol = magnet.GetComponent<CircleCollider2D>();
         state = PlayerState.Active;
         strength = forçaJogada;
         canMove = true;
@@ -56,7 +57,6 @@ public class Player : MonoBehaviour
 
         if (Input.GetButton("Fire1") && hasMagnet && tempoSegurado <= 3)
         {
-            state = PlayerState.Throwing;
             tempoSegurado += Time.deltaTime / 2;
         }
         if (Input.GetButtonUp("Fire1") && hasMagnet)
@@ -90,6 +90,10 @@ public class Player : MonoBehaviour
         magnet.transform.position = transform.position;
         magnet.transform.rotation = Quaternion.Euler(new Vector3(magnet.transform.rotation.x, magnet.transform.rotation.y, GetPlayerLookingPosition(mousePos)));
         magnetRb.AddForce(direction * forçaJogada * 75, ForceMode2D.Force);
+        Invoke("FollowPlayer", 1f);
+    }
+    void FollowPlayer()
+    {
         state = PlayerState.Active;
     }
     float GetPlayerLookingPosition(Vector3 mousePos)
@@ -116,6 +120,7 @@ public class Player : MonoBehaviour
             magnet.SetActive(false);
             corda.enabled = false;
             hasMagnet = true;
+            magnetCircleCol.enabled = false;
         }
     }
 }

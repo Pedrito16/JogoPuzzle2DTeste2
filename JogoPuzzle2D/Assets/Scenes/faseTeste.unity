@@ -428,9 +428,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magnet: {fileID: 2109328962}
+  magnetCircleCol: {fileID: 0}
   playerMoveSpeed: 10
   velocidadePuxada: 0.025
-  "for\xE7aJogada": 5.4
+  "for\xE7aJogada": 7
   tempoSegurado: 0
   hasMagnet: 0
   canMove: 0
@@ -1410,12 +1411,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2109328966}
   - component: {fileID: 2109328965}
+  - component: {fileID: 2109328969}
   - component: {fileID: 2109328967}
   - component: {fileID: 2109328964}
   - component: {fileID: 2109328963}
   - component: {fileID: 2109328971}
   - component: {fileID: 2109328970}
-  - component: {fileID: 2109328969}
   m_Layer: 0
   m_Name: "Im\xE3"
   m_TagString: Magnet
@@ -1436,7 +1437,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 1.5
+  m_LinearDrag: 1.75
   m_AngularDrag: 2
   m_GravityScale: 0
   m_Material: {fileID: 0}

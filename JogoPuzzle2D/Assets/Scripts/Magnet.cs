@@ -15,19 +15,18 @@ public class Magnet : MonoBehaviour
     void Update()
     {
         state = Player.state;
-        if (state == PlayerState.Throwing)
-            StartCoroutine(Collider());
+        if (state == PlayerState.Pulling)
+        {
+            Invoke("ActivateCollider", 1.5f);
+        }
+           
     }
-    IEnumerator Collider()
+    void ActivateCollider()
     {
-        if (!gameObject.activeSelf)
-        {
-            col.enabled = false;
-        }
-        else
-        {
-            yield return new WaitForSeconds(1.5f);
-            col.enabled = true;
-        }
+        col.enabled = true;
+    }
+    void DeactivateCollider()
+    {
+        col.enabled = false;
     }
 }

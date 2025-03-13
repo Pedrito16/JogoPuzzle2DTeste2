@@ -24,12 +24,18 @@ public class RopeSegment : MonoBehaviour
         else if(Player.state == PlayerState.Pulling || Player.state == PlayerState.Throwing)
             distance = Vector2.Distance(transform.position, previousSegment.position);
 
-
         if (distance >= maxDistance && state == PlayerState.Active)
         {
             StartCoroutine(PlayerDirection());
         }
-        else if (distance >= maxDistance && state == PlayerState.Pulling || distance >= maxDistance && state == PlayerState.Throwing)
+        else if (distance >= maxDistance && state == PlayerState.Pulling)
+        {
+            if (gameObject.tag != "Magnet")
+            {
+                StartCoroutine(MagnetDirection());
+            }
+        }
+        else if(distance >= maxDistance && state == PlayerState.Throwing)
         {
             if (gameObject.tag != "Magnet")
             {

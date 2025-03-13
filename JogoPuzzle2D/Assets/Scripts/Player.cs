@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     [Header("Configurações")]
     [SerializeField] float playerMoveSpeed;
     [SerializeField] float velocidadePuxada;
-    [SerializeField] float forçaJogada;
+    [Tooltip("Use valores altos (addForce)")]
+    [SerializeField]public float forçaJogada;
 
     [Header("Debug")]
     [SerializeField] float tempoSegurado;
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] bool canMove;
 
     //variaveis invisiveis
+    float strength;
     Rigidbody2D rb;
     Rigidbody2D magnetRb;
     LineRenderer corda;
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour
         magnetRb = magnet.GetComponent<Rigidbody2D>();
         corda = GetComponent<LineRenderer>();
         state = PlayerState.Active;
+        strength = forçaJogada;
         canMove = true;
     }
     void Update()
@@ -51,12 +54,12 @@ public class Player : MonoBehaviour
         else
             rb.velocity = Vector2.zero;
 
-        if (Input.GetButton("Fire1") && tempoSegurado < 3)
+        if (Input.GetButton("Fire1") && hasMagnet && tempoSegurado <= 3)
         {
-            tempoSegurado += Time.deltaTime;
             state = PlayerState.Throwing;
+            tempoSegurado += Time.deltaTime / 2;
         }
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonUp("Fire1") && hasMagnet)
         {
             ThrowMagnet(tempoSegurado);
         }
@@ -79,23 +82,16 @@ public class Player : MonoBehaviour
     {
         state = PlayerState.Throwing;
         hasMagnet = false;
+        corda.enabled = true;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = (mousePos - magnet.transform.position);
+        direction = direction.normalized;
         magnet.SetActive(true);
         magnet.transform.position = transform.position;
         magnet.transform.rotation = Quaternion.Euler(new Vector3(magnet.transform.rotation.x, magnet.transform.rotation.y, GetPlayerLookingPosition(mousePos)));
-
-        magnetRb.velocity = mousePos * força * forçaJogada;
-        StartCoroutine(JogarImã(força, mousePos));
-        corda.enabled = true;
+        magnetRb.AddForce(direction * forçaJogada * 75, ForceMode2D.Force);
+        state = PlayerState.Active;
     }
-    /*IEnumerator JogarImã(float força, Vector2 paraOnde)
-    {
-        float iterador = 0;
-        while(iterador < 3)
-        {
-            magnetRb
-        }
-    }*/
     float GetPlayerLookingPosition(Vector3 mousePos)
     {
         Vector3 direction = transform.position - mousePos;

@@ -407,7 +407,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -430,7 +430,7 @@ MonoBehaviour:
   magnet: {fileID: 2109328962}
   playerMoveSpeed: 10
   velocidadePuxada: 0.025
-  "for\xE7aJogada": 10
+  "for\xE7aJogada": 5.4
   tempoSegurado: 0
   hasMagnet: 0
   canMove: 0
@@ -1355,7 +1355,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093138602}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1412,8 +1412,8 @@ GameObject:
   - component: {fileID: 2109328965}
   - component: {fileID: 2109328967}
   - component: {fileID: 2109328964}
-  - component: {fileID: 2109328968}
   - component: {fileID: 2109328963}
+  - component: {fileID: 2109328971}
   - component: {fileID: 2109328970}
   - component: {fileID: 2109328969}
   m_Layer: 0
@@ -1436,7 +1436,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0.1
+  m_LinearDrag: 1.5
   m_AngularDrag: 2
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1547,26 +1547,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.65
---- !u!231 &2109328968
-SpringJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2109328962}
-  m_Enabled: 0
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 434464839}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
-  m_Distance: 7.5
-  m_DampingRatio: 0.5
-  m_Frequency: 0.5
 --- !u!58 &2109328969
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1574,7 +1554,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109328962}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -1600,3 +1580,16 @@ MonoBehaviour:
   maxDistance: 1
   distance: 0
   state: 0
+--- !u!114 &2109328971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109328962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726d43078f837a74483ed683edcec7e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  col: {fileID: 2109328969}

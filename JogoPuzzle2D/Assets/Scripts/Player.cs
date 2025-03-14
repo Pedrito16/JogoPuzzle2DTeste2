@@ -10,40 +10,36 @@ public enum PlayerState
 public class Player : MonoBehaviour
 {
     [SerializeField] GameObject magnet;
-    public Collider2D magnetCircleCol;
     [Header("Configurações")]
     [SerializeField] float playerMoveSpeed;
     [SerializeField] float velocidadePuxada;
     [Tooltip("Use valores altos (addForce)")]
-    [SerializeField]public float forçaJogada;
-    [SerializeField] Gradient chargedColor;
+    [SerializeField] float forçaJogada;
 
     [Header("Debug")]
     [SerializeField] float tempoSegurado;
     [SerializeField] public static PlayerState state;
     [SerializeField] public bool hasMagnet;
-    [SerializeField] bool canMove;
-    Collider col;
-    bool verificação;
+    [SerializeField] bool hasKey;
+    bool canMove;
+    bool magnetMode;
 
     //variaveis invisiveis
-    float strength;
     Rigidbody2D rb;
+    SpriteRenderer spriteRenderer;
     Rigidbody2D magnetRb;
     LineRenderer corda;
-
-    Color corAtual;
-    
+    Color originalColor;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         magnetRb = magnet.GetComponent<Rigidbody2D>();
         corda = GetComponent<LineRenderer>();
-        magnetCircleCol = magnet.GetComponent<BoxCollider2D>();
+        magnetMode = false;
         state = PlayerState.Active;
-        strength = forçaJogada;
         canMove = true;
-        corAtual = gameObject.GetComponent<SpriteRenderer>().color;
+        originalColor = spriteRenderer.color;
     }
     void Update()
     {
@@ -56,20 +52,26 @@ public class Player : MonoBehaviour
         }
 
         if(canMove)
-        {
             rb.velocity = playerMovementVector * playerMoveSpeed;
-        }
+
         else
             rb.velocity = Vector2.zero;
+
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        magnet.transform.rotation = Quaternion.Euler(new Vector3(magnet.transform.rotation.x, magnet.transform.rotation.y, GetPlayerLookingPosition(mousePos)));
-        if (Input.GetButton("Fire1") && hasMagnet && tempoSegurado <= 5)
+        magnet.transform.rotation = Quaternion.Euler(new Vector3(magnet.transform.rotation.x, magnet.transform.rotation.y, GetPlayerLookingPosition(mousePos, magnet.transform.position)));
+        if (Input.GetButton("Fire1") && hasMagnet && tempoSegurado <= 4)
         {
-            tempoSegurado += Time.deltaTime;
+            tempoSegurado += Time.deltaTime * 1.25f;
+            StartCoroutine(ChargedColor());
         }
         if (Input.GetButtonUp("Fire1") && hasMagnet)
         {
+            spriteRenderer.color = originalColor;
             ThrowMagnet();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            magnetMode = !magnetMode;
         }
     }
     private void FixedUpdate()
@@ -79,7 +81,7 @@ public class Player : MonoBehaviour
             canMove = false;
             StartCoroutine(pullMagnet());
         }
-        else 
+        else
         {
             StopAllCoroutines();
             canMove = true;
@@ -91,7 +93,7 @@ public class Player : MonoBehaviour
         hasMagnet = false;
         corda.enabled = true;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = (mousePos - magnet.transform.position);
+        Vector2 direction = (mousePos - transform.position);
         direction = direction.normalized;
         magnet.SetActive(true);
         magnet.transform.position = transform.position;
@@ -103,12 +105,24 @@ public class Player : MonoBehaviour
         tempoSegurado = 0;
         state = PlayerState.Active;
     }
-    float GetPlayerLookingPosition(Vector3 mousePos)
+    float GetPlayerLookingPosition(Vector3 mousePos, Vector3 position)
     {
-        Vector3 direction = magnet.transform.position - mousePos;
+        Vector3 direction = position - mousePos;
         float calculo = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         return calculo + 90;
+    }
+    IEnumerator ChargedColor()
+    {
+        float iterador = 0;
+        Color cor = spriteRenderer.color;
+        while(iterador <= 30f)
+        {
+            cor = Color.Lerp(spriteRenderer.color, Color.yellow, iterador / 30f);
+            iterador += Time.deltaTime;
+            spriteRenderer.color = cor;
+            yield return null;
+        }
     }
     IEnumerator pullMagnet()
     {
@@ -128,7 +142,22 @@ public class Player : MonoBehaviour
             magnet.SetActive(false);
             corda.enabled = false;
             hasMagnet = true;
-            magnetCircleCol.enabled = false;
+        }
+        if(collision.gameObject.TryGetComponent(out ICollectable target))
+        {
+            ICollectable coletavel;
+            coletavel = target;
+            coletavel.Collectable();
+            hasKey = true;
+        }
+        if (collision.gameObject.TryGetComponent(out IDoor obj))
+        {
+            if (hasKey)
+            {
+                IDoor door = obj;
+                door.Open();
+                hasKey = false;
+            }
         }
     }
 }

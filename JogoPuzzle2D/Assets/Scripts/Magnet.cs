@@ -23,7 +23,7 @@ public class Magnet : MonoBehaviour
     private void OnEnable()
     {
         col.enabled =false;
-        Invoke("enableCollider", 1);
+        Invoke("enableCollider", 0.5f);
     }
     void enableCollider()
     {

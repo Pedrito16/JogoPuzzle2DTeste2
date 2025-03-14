@@ -8,7 +8,7 @@ public class RopeSystem : MonoBehaviour
     [SerializeField] Transform magnet;
     [SerializeField] LineRenderer corda;
     [SerializeField] Transform playerTransform;
-    [SerializeField] Player player;
+    Player player;
     void Start()
     {
         player = playerTransform.gameObject.GetComponent<Player>();

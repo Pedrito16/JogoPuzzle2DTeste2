@@ -16,18 +16,23 @@ public class Player : MonoBehaviour
     [SerializeField] float velocidadePuxada;
     [Tooltip("Use valores altos (addForce)")]
     [SerializeField]public float forçaJogada;
+    [SerializeField] Gradient chargedColor;
 
     [Header("Debug")]
     [SerializeField] float tempoSegurado;
     [SerializeField] public static PlayerState state;
     [SerializeField] public bool hasMagnet;
     [SerializeField] bool canMove;
+    Collider col;
+    bool verificação;
 
     //variaveis invisiveis
     float strength;
     Rigidbody2D rb;
     Rigidbody2D magnetRb;
     LineRenderer corda;
+
+    Color corAtual;
     
     void Start()
     {
@@ -38,6 +43,7 @@ public class Player : MonoBehaviour
         state = PlayerState.Active;
         strength = forçaJogada;
         canMove = true;
+        corAtual = gameObject.GetComponent<SpriteRenderer>().color;
     }
     void Update()
     {
@@ -57,13 +63,13 @@ public class Player : MonoBehaviour
             rb.velocity = Vector2.zero;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         magnet.transform.rotation = Quaternion.Euler(new Vector3(magnet.transform.rotation.x, magnet.transform.rotation.y, GetPlayerLookingPosition(mousePos)));
-        if (Input.GetButton("Fire1") && hasMagnet && tempoSegurado <= 3)
+        if (Input.GetButton("Fire1") && hasMagnet && tempoSegurado <= 5)
         {
-            tempoSegurado += Time.deltaTime / 2;
+            tempoSegurado += Time.deltaTime;
         }
         if (Input.GetButtonUp("Fire1") && hasMagnet)
         {
-            ThrowMagnet(tempoSegurado);
+            ThrowMagnet();
         }
     }
     private void FixedUpdate()
@@ -72,7 +78,6 @@ public class Player : MonoBehaviour
         {
             canMove = false;
             StartCoroutine(pullMagnet());
-            state = PlayerState.Pulling;
         }
         else 
         {
@@ -80,7 +85,7 @@ public class Player : MonoBehaviour
             canMove = true;
         }
     }
-    void ThrowMagnet(float força)
+    void ThrowMagnet()
     {
         state = PlayerState.Throwing;
         hasMagnet = false;
@@ -90,11 +95,12 @@ public class Player : MonoBehaviour
         direction = direction.normalized;
         magnet.SetActive(true);
         magnet.transform.position = transform.position;
-        magnetRb.AddForce(direction * forçaJogada * 75, ForceMode2D.Force);
+        magnetRb.AddForce(direction * tempoSegurado * 90, ForceMode2D.Force);
         Invoke("FollowPlayer", 1f);
     }
     void FollowPlayer()
     {
+        tempoSegurado = 0;
         state = PlayerState.Active;
     }
     float GetPlayerLookingPosition(Vector3 mousePos)
@@ -107,7 +113,8 @@ public class Player : MonoBehaviour
     IEnumerator pullMagnet()
     {
         float iterador = 0;
-        while(iterador < 100)
+        state = PlayerState.Pulling;
+        while (iterador < 100)
         {
             magnet.transform.position = Vector2.Lerp(magnet.transform.position, transform.position, velocidadePuxada * iterador / 100);
             iterador += Time.deltaTime;

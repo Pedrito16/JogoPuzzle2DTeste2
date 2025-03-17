@@ -54,4 +54,3 @@ MonoBehaviour:
   magnet: {fileID: 0}
   corda: {fileID: 0}
   playerTransform: {fileID: 0}
-  player: {fileID: 0}

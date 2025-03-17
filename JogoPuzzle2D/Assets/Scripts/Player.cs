@@ -13,33 +13,32 @@ public class Player : MonoBehaviour
     [Header("Configurações")]
     [SerializeField] float playerMoveSpeed;
     [SerializeField] float velocidadePuxada;
-    [Tooltip("Use valores altos (addForce)")]
     [SerializeField] float forçaJogada;
+    [SerializeField] Color[] modeColors;
 
     [Header("Debug")]
     [SerializeField] float tempoSegurado;
     [SerializeField] public static PlayerState state;
     [SerializeField] public bool hasMagnet;
     [SerializeField] bool hasKey;
+    [SerializeField] Color activeColor;
     bool canMove;
-    bool magnetMode;
+    public static bool magnetMode;
 
     //variaveis invisiveis
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
     Rigidbody2D magnetRb;
     LineRenderer corda;
-    Color originalColor;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         magnetRb = magnet.GetComponent<Rigidbody2D>();
         corda = GetComponent<LineRenderer>();
-        magnetMode = false;
+        spriteRenderer.color = modeColors[0];
         state = PlayerState.Active;
         canMove = true;
-        originalColor = spriteRenderer.color;
     }
     void Update()
     {
@@ -61,17 +60,17 @@ public class Player : MonoBehaviour
         magnet.transform.rotation = Quaternion.Euler(new Vector3(magnet.transform.rotation.x, magnet.transform.rotation.y, GetPlayerLookingPosition(mousePos, magnet.transform.position)));
         if (Input.GetButton("Fire1") && hasMagnet && tempoSegurado <= 4)
         {
-            tempoSegurado += Time.deltaTime * 1.25f;
+            tempoSegurado += Time.deltaTime * 2f;
             StartCoroutine(ChargedColor());
         }
         if (Input.GetButtonUp("Fire1") && hasMagnet)
         {
-            spriteRenderer.color = originalColor;
             ThrowMagnet();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             magnetMode = !magnetMode;
+            spriteRenderer.color = playerColor();
         }
     }
     private void FixedUpdate()
@@ -89,6 +88,7 @@ public class Player : MonoBehaviour
     }
     void ThrowMagnet()
     {
+
         state = PlayerState.Throwing;
         hasMagnet = false;
         corda.enabled = true;
@@ -97,13 +97,21 @@ public class Player : MonoBehaviour
         direction = direction.normalized;
         magnet.SetActive(true);
         magnet.transform.position = transform.position;
-        magnetRb.AddForce(direction * tempoSegurado * 90, ForceMode2D.Force);
+        magnetRb.AddForce(direction * tempoSegurado * 130, ForceMode2D.Force);
         Invoke("FollowPlayer", 1f);
     }
     void FollowPlayer()
     {
+        spriteRenderer.color = playerColor();
         tempoSegurado = 0;
         state = PlayerState.Active;
+    }
+    Color playerColor()
+    {
+        if (magnetMode)
+            return modeColors[1];
+        else
+            return modeColors[0];
     }
     float GetPlayerLookingPosition(Vector3 mousePos, Vector3 position)
     {
@@ -118,7 +126,7 @@ public class Player : MonoBehaviour
         Color cor = spriteRenderer.color;
         while(iterador <= 30f)
         {
-            cor = Color.Lerp(spriteRenderer.color, Color.yellow, iterador / 30f);
+            cor = Color.Lerp(spriteRenderer.color, Color.white, iterador / 30f);
             iterador += Time.deltaTime;
             spriteRenderer.color = cor;
             yield return null;

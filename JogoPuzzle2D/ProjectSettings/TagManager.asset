@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Magnet
   - Pressionavel
+  - Filtro
   layers:
   - Default
   - TransparentFX

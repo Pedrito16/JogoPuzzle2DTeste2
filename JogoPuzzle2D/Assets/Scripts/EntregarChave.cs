@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class EntregarChave : MonoBehaviour
 {
-    
+    [SerializeField] int inputQuantity;
+    int input;
+    [SerializeField] GameObject chave;
+
+    [SerializeField] Transform[] inputOutPut;
+    [SerializeField] PlaceLock EsteiraLock;
     void Start()
     {
         

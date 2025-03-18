@@ -7,25 +7,38 @@ public class Sujeira : MonoBehaviour, ISujeira
     [SerializeField] float velocidade;
     [SerializeField] float velocidadeRotação;
     Rigidbody2D rb;
+    bool canMove;
+    bool newFather;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        canMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float rotate = velocidadeRotação * Time.deltaTime;
-        transform.Rotate(Vector3.forward, rotate);
-
-        rb.velocity = Vector3.up * velocidade;
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Filtro")
+        if (canMove)
         {
+            float rotate = velocidadeRotação * Time.deltaTime;
+            transform.Rotate(Vector3.forward, rotate);
+
+            rb.velocity = Vector3.up * velocidade;
+        }
+        if (newFather)
+        {
+            
+            transform.position = Vector3.Lerp(transform.position, transform.parent.position, Time.deltaTime * 10);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Filtro"))
+        {
+            canMove = false;
             rb.velocity = Vector3.zero;
             transform.SetParent(collision.transform, false);
+            newFather = true;
         }
     }
     public void Sujar()

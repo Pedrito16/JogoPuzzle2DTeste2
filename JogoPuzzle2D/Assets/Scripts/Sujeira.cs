@@ -7,8 +7,8 @@ public class Sujeira : MonoBehaviour, ISujeira
     [SerializeField] float velocidade;
     [SerializeField] float velocidadeRotação;
     Rigidbody2D rb;
-    bool canMove;
-    bool newFather;
+    [SerializeField] bool canMove;
+    public bool newFather;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -26,8 +26,7 @@ public class Sujeira : MonoBehaviour, ISujeira
             rb.velocity = Vector3.up * velocidade;
         }
         if (newFather)
-        {
-            
+        { 
             transform.position = Vector3.Lerp(transform.position, transform.parent.position, Time.deltaTime * 10);
         }
     }

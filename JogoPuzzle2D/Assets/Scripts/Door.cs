@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IDoor
 {
-    [SerializeField] HingeJoint2D joint;
+    HingeJoint2D joint;
     [SerializeField] Sprite unlockedSprite;
     SpriteRenderer spriteRenderer;
     Rigidbody2D rb;

@@ -20,13 +20,12 @@ public class Filtro : MonoBehaviour
         if (esteiraLock.isOnPlace && quantidadeFilhos > 0)
         {
             timer += Time.deltaTime;
-            if(timer > 1)
+            if(timer > 1 && crianças[0] != null)
             {
                 crianças[0].newFather = false;
                 crianças[0].transform.rotation = transform.rotation;
                 crianças[0].GetComponent<BoxCollider2D>().isTrigger = false;
                 crianças[0].transform.position = new Vector2(transform.position.x - 2f, transform.position.y - 0.25f);
-                crianças[0].transform.SetParent(null);
                 crianças.Remove(crianças[0]); 
                 timer = 0;
             }

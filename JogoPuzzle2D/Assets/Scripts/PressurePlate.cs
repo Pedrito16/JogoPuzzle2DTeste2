@@ -22,12 +22,9 @@ public class PressurePlate : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       if(collision.tag == "Pressionavel")
-        {
             activated = true;
             action?.Invoke();
             spriteRenderer.sprite = sprites[1];
-        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {

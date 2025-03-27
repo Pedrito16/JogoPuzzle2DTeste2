@@ -3250,6 +3250,10 @@ PrefabInstance:
       propertyPath: magnet
       value: 
       objectReference: {fileID: 1023867353}
+    - target: {fileID: 8555828316257322846, guid: 9f2cd58215de8124fab2124a7daae04c, type: 3}
+      propertyPath: velocidadePuxada
+      value: 0.075
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f2cd58215de8124fab2124a7daae04c, type: 3}
 --- !u!4 &1000430202 stripped
@@ -3274,11 +3278,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6535755828696985742, guid: b3c016d6a6702ea4ead7b819ac500f5f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.56
+      value: 7.46
       objectReference: {fileID: 0}
     - target: {fileID: 6535755828696985742, guid: b3c016d6a6702ea4ead7b819ac500f5f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.67
+      value: -7.08
       objectReference: {fileID: 0}
     - target: {fileID: 6535755828696985742, guid: b3c016d6a6702ea4ead7b819ac500f5f, type: 3}
       propertyPath: m_LocalPosition.z

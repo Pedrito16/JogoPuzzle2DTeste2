@@ -22,6 +22,7 @@ public class PressurePlate : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.CompareTag("Pressionavel"))
             activated = true;
             action?.Invoke();
             spriteRenderer.sprite = sprites[1];

@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] Color activeColor;
     bool canMove;
     public static bool magnetMode;
+    float widm;
 
     //variaveis invisiveis
     Rigidbody2D rb;
@@ -39,6 +40,7 @@ public class Player : MonoBehaviour
         spriteRenderer.color = modeColors[0];
         state = PlayerState.Active;
         canMove = true;
+        widm = corda.widthMultiplier;
     }
     void Update()
     {
@@ -91,7 +93,7 @@ public class Player : MonoBehaviour
 
         state = PlayerState.Throwing;
         hasMagnet = false;
-        corda.enabled = true;
+        corda.widthMultiplier = widm;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = (mousePos - transform.position);
         direction = direction.normalized;
@@ -148,7 +150,7 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag == "Magnet") //to usando com tag pois: não sei usar interface "direito" e porque magnet não tem script para aplicar interface :P
         {
             magnet.SetActive(false);
-            corda.enabled = false;
+            corda.widthMultiplier = 0f;
             hasMagnet = true;
         }
         if(collision.gameObject.TryGetComponent(out ICollectable target))
